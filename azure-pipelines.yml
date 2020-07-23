@@ -1,0 +1,21 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'Azure-Function'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: 'powershellazurefunction-1.0.zip'
+    replaceExistingArchive: true
+
+- task: OctopusPush@4
+  inputs:
+    OctoConnectedServiceName: 'OctopusCloud'
+    Space: 'Spaces-1'
+    Package: 'powershellazurefunction-1.0.zip'
+    Replace: 'false'
